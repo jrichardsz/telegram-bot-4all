@@ -3,7 +3,6 @@ var Properties = require(`${appRoot}/common/Properties.js`);
 var prototype = By.prototype;
 var botName;
 
-
 function By() {
 	botName = "/"+prototype.constructor.name.toLowerCase();
 }

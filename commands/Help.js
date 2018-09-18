@@ -4,13 +4,11 @@ var prototype = Help.prototype;
 var botName;
 
 function Help() {
-	  botName = "/"+prototype.constructor.name.toLowerCase();
+	botName = "/"+prototype.constructor.name.toLowerCase();
 }
 
 prototype.ask = function(commandArguments) {
-
-	var response = "Hi, I am "+Properties.get("chat.bot.name");
-
+	var response = "Hi, I am "+Properties.get("chat.bot.name")+" and this are my commands: ...";
 	return response;
 };
 
