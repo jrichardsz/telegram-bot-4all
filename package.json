@@ -1,0 +1,23 @@
+{
+  "name": "telegram-bot-starter",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "start": "node --use_strict index.js",
+    "dev": "cross-env BOT_ENV=local nodemon --use_strict index.js"
+  },
+  "author": "Richard Leon (http://jrichardsz.github.io/)",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "0.18.0",
+    "body-parser": "1.18.3",
+    "express": "4.16.3",
+    "uuid": "3.3.2",
+    "nodemon": "1.18.4",
+    "cross-env": "5.2.0",
+    "log-timestamp": "0.2.1",
+    "properties-reader": "0.0.16"
+  }
+}
