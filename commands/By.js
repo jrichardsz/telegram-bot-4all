@@ -7,8 +7,8 @@ function By() {
 	botName = "/"+prototype.constructor.name.toLowerCase();
 }
 
-prototype.ask = function(commandArguments) {
-	return Properties.get("author");
+prototype.ask = function(commandArguments,next) {
+  next(Properties.get("author"));
 };
 
 prototype.name = function() {

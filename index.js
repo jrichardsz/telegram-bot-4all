@@ -9,13 +9,10 @@ require('log-timestamp');
 const express 		  = require('express');
 const app 			    = express();
 const bodyParser 		= require('body-parser');
-const axios 		    = require('axios');
 const Helper        = require("./common/Helper.js");
 const Log           = require("./common/Log.js");
 
-const env          	= process.env;
-const port         	= env.PORT || 8080;
-const token        	= process.env.TELEGRAM_BOT_TOKEN;
+const port         	= process.env.PORT || 8080;
 
 //easy log detection in several http request environment
 global.httpRequestUuid = "";

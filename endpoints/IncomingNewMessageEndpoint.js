@@ -43,13 +43,16 @@ prototype.execute = function(req,res,commandsMap) {
   Log.info("commandArguments:"+commandArguments);
 
   if(commandInstance){
-    TelegramBotActions.sendMessage(chatMessageObject, commandInstance.ask(commandArguments),req, res);
+
+    commandInstance.ask(commandArguments, function(botResponse){
+      TelegramBotActions.sendMessage(chatMessageObject,botResponse,req, res);
+      Log.info("operation completed.");
+    });
   }else {
     Log.info("command was not registered");
     TelegramBotActions.sendMessage(chatMessageObject, "El texto que has ingresado no contiene ningun comando que conozco.",req, res);
+    Log.info("operation completed.");
   }
-
-  Log.info("operation completed.");
   return res.end()
 };
 

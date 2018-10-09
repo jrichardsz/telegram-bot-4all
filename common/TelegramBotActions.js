@@ -1,4 +1,7 @@
 const Log  = require("./Log.js");
+const axios = require('axios');
+
+const token = process.env.TELEGRAM_BOT_TOKEN;
 
 var exports = module.exports = {};
 

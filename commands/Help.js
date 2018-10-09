@@ -7,9 +7,9 @@ function Help() {
 	botName = "/"+prototype.constructor.name.toLowerCase();
 }
 
-prototype.ask = function(commandArguments) {
+prototype.ask = function(commandArguments,next) {
 	var response = "Hi, I am "+Properties.get("chat.bot.name")+" and this are my commands: ...";
-	return response;
+	next(response);
 };
 
 prototype.name = function() {

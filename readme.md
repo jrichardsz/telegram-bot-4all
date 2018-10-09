@@ -19,21 +19,24 @@ Serve as a starting point to develop telegram personal or public bots like :
 - Telegram account
 - Telegram Token (BotFather)
 
-# Telegram previous configurations
+# Step 1 : Telegram previous configurations
 
-- Start new telegram chat and add botFather
-- Send : /start
-- Send : /newbot
-- Send : Name of your Bot
-- Send : Id of your Bot
+- Start new telegram chat with botFather and send the following commands:
+- /start
+- /newbot
+- Enter : Name of your Bot
+- Enter : Id of your Bot
 
   This step , will return to you the token. This is required to register and interact with your bot.
 
-- Send : /setjoingroups
-- Send : @id_of_your_bot
-- Send : Enable
+# Step 2 : Deploy your bot
 
-# Register bot in Telegram Servers
+- Clone this repository
+- Create an account in heroku (for instance)
+- Create a configuration variable called : **TELEGRAM_BOT_TOKEN** with token gotten in previous step.
+- Push and save the public url of this heroku application.
+
+# Step 3 :Register bot in Telegram Servers
 
 **Note :** Execute this step if your bot is ready to use (deployed in somewhere)
 
@@ -44,7 +47,7 @@ You need to deploy your bot (this source code) in a **public server or domain**:
 - https://zeit.co/now
 - Some server by your own
 
-If your bot is deployed and has a domain like:
+If your bot is deployed and has a url like:
 
 - https://my_awesome_bot.herokuapp.com
 
@@ -54,18 +57,55 @@ You must register it, executing this:
 curl -F "url=https://my_awesome_bot.herokuapp.com/new-message"  https://api.telegram.org/bot<your_api_token>/setWebhook
 ```
 
-# Start Bot in Development mode
+# Step 4: Chat with your bot
+
+Start a new chat with your bot and enter :
+
+**/help**
+
+This command will return you a list of default commands of your bot.
+
+---
+
+### Add new commands
+
+In order to add new commands, you must understand how commands works:
+
+#### Command strategy
+
+Commands are very simple. Is just a javascript module with :
+
+- constructor
+- ask method
+  - This method is called every time a user send some text which contains command name like : **/help**
+- name method
+  - This method is required to save an instance of command in a map with name command as key map.
+
+#### New command
+
+By default, this bot has two commands:
+
+- /by
+  - Show the author of this bot
+- /help
+  - Show a list of commands and some tips     
+
+If you want to add new command, follow this steps :
+
+- Copy/past **By**  or **Help** commands, located in **commands** folder (In order to comply with **Command Strategy**)
+- Rename to some name like : **Hello.js**. This name will be the command name to use.
+- Replace **old name** occurrences by **new name** : Hello
+- Add some logic inside **ask** method. Don't forget to return some string.
+
+That's all. Restart application and a new command called **/hello** are available :D
+
+### Start Bot for Development purposes
 
 - npm install
 - npm run dev
 
-# Start in Production mode
 
-- npm install
-- export TELEGRAM_BOT_TOKEN="my_generated_token_using_botfather"
-- npm run start
-
-# Test bot commands in local environment
+### Test bot commands in local environment
 
 This is a sample of json sent by telegram server to your bot:
 
@@ -80,7 +120,7 @@ This is a sample of json sent by telegram server to your bot:
 
 Execute this samples to test the correct behavior of this bot
 
-## /by command
+## /by
 
 ```
 curl -H "Content-Type: application/json" -X POST -d '{"text":"/by","from":{"first_name":"Richard"}}' \
@@ -101,7 +141,7 @@ mesage was not send. BOT env is local (development mode)
 operation completed.
 ```
 
-## /help command
+## /help
 
 ```
 curl -H "Content-Type: application/json" -X POST -d '{"text":"/help","from":{"first_name":"Richard"}}' \
@@ -123,35 +163,6 @@ operation completed.
 ```
 
 In development mode, message is not sent to chat. Is only printed in console.
-
-# Command strategy
-
-Commands are very simple. Is just a javascript module with :
-
-- constructor
-- ask method
-  - This method is called every time a user send some text which contains command name like : **/help**
-- name method
-  - This method is required to save an instance of command in a map with name command as key map.
-
-# Add new commands
-
-By default, this bot has two commands:
-
-- /by
-  - Show the author of this bot
-- /help
-  - Show a list of commands and some tips     
-
-If you want to add new command, follow this steps :
-
-- Copy/past **By**  or **Help** commands, located in **commands** folder (In order to comply with **Command Strategy**)
-- Rename to some name like : **Hello.js**. This name will be the command name to use.
-- Replace **old name** occurrences by **new name** : Hello
-- Add some logic inside **ask** method. Don't forget to return some string.
-
-That's all. Restart application and a new command called **/hello** are available :D
-
 
 # Regards
 
