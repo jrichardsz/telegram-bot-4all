@@ -17,11 +17,26 @@ exports.getMessageByBotEnvironment = function(body) {
 };
 
 exports.searchBasicCommand = function(text) {
-	var pattern = /^\/[a-zA-Z]+/;
+	var pattern = /^\/.+/;
 	var match = pattern.exec(text);
 
-	if(match && match[0]){
-		return match[0]
+	var result = pattern.test(text);
+	if (result === true) {
+		 if(match && match[0]){
+			 return match[0]
+		 }
+	}
+
+}
+
+exports.searchHumanV1Command = function(text,commandsMap) {
+
+	var firstWord = text.split(" ")[0];
+
+	if (typeof firstWord !== 'undefined') {
+		if(commandsMap[firstWord] !== 'undefined'){
+      return firstWord;
+		}
 	}
 }
 

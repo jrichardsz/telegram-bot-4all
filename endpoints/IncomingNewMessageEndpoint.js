@@ -14,6 +14,7 @@ prototype.execute = function(req,res,commandsMap) {
 
   global.httpRequestUuid = uuidv1();
 
+  Log.info("\n");
   Log.info("incoming command: ["+chatMessageObject.text+"]");
   Log.info("from:"+chatMessageObject.from.first_name);
 
@@ -24,33 +25,45 @@ prototype.execute = function(req,res,commandsMap) {
     return res.end()
   }
 
-  Log.info("searching command in text:"+chatMessageObject.text.toLowerCase());
+  Log.info("searching some command in text:"+chatMessageObject.text.toLowerCase());
 
-  //get command name from chat text
+  var commandFounded;
+
   var basicCommand = Helper.searchBasicCommand(chatMessageObject.text.toLowerCase());
-  Log.info("basic command:"+basicCommand)
 
-  if (!basicCommand) {
-    TelegramBotActions.sendMessage(message, "The text you have entered does not contain any command that I know.",req, res);
+  if (typeof basicCommand !== 'undefined') {
+     commandFounded = basicCommand;
+     Log.info("basic command was found");
+  }else {
+    var humanV1Command = Helper.searchHumanV1Command(chatMessageObject.text.toLowerCase(),commandsMap);
+    if (typeof humanV1Command !== 'undefined') {
+      commandFounded = humanV1Command;
+      Log.info("human v1 command was found");
+    }
+  }
+
+  Log.info("command:"+commandFounded);
+
+  if (typeof commandFounded === 'undefined') {
+    TelegramBotActions.sendMessage(chatMessageObject, "The text you have entered does not contain any command that I know.",req, res);
     return res.end();
   }
 
   // get command instance in order to use it!
-  var commandInstance = commandsMap[basicCommand];
+  var commandInstance = commandsMap[commandFounded];
   Log.info("Command instance was found for this command? : "+((commandInstance)?'yes':'no'));
 
-  var commandArguments = chatMessageObject.text.toLowerCase().replace(basicCommand, "");
+  var commandArguments = chatMessageObject.text.toLowerCase().replace(commandFounded, "");
   Log.info("commandArguments:"+commandArguments);
 
-  if(commandInstance){
-
+  if(typeof commandInstance !== 'undefined'){
     commandInstance.ask(commandArguments, function(botResponse){
       TelegramBotActions.sendMessage(chatMessageObject,botResponse,req, res);
       Log.info("operation completed.");
     });
   }else {
     Log.info("command was not registered");
-    TelegramBotActions.sendMessage(chatMessageObject, "El texto que has ingresado no contiene ningun comando que conozco.",req, res);
+    TelegramBotActions.sendMessage(chatMessageObject, "The text you have entered has the command ["+commandFounded+"] but nothing is responding to it.",req, res);
     Log.info("operation completed.");
   }
   return res.end()

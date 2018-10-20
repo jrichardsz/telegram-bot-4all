@@ -4,7 +4,7 @@ var prototype = By.prototype;
 var botName;
 
 function By() {
-	botName = "/"+prototype.constructor.name.toLowerCase();
+	botName = Properties.get("basic.command.start.char")+prototype.constructor.name.toLowerCase();
 }
 
 prototype.ask = function(commandArguments,next) {

@@ -4,7 +4,7 @@ var prototype = Help.prototype;
 var botName;
 
 function Help() {
-	botName = "/"+prototype.constructor.name.toLowerCase();
+	botName = Properties.get("basic.command.start.char")+prototype.constructor.name.toLowerCase();
 }
 
 prototype.ask = function(commandArguments,next) {
