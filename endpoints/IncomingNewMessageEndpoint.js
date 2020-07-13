@@ -65,8 +65,7 @@ prototype.execute = function(req,res,commandsMap) {
     Log.info("command was not registered");
     TelegramBotActions.sendMessage(chatMessageObject, "The text you have entered has the command ["+commandFounded+"] but nothing is responding to it.",req, res);
     Log.info("operation completed.");
-  }
-  return res.end()
+  }  
 };
 
 module.exports = IncomingNewMessageEndpoint;

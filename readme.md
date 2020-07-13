@@ -19,6 +19,37 @@ Serve as a starting point to develop telegram personal or public bots like :
 - Telegram account
 - Telegram Token (BotFather)
 
+# Development mode
+
+Useful for test bot commands in local environment without deployment steps
+
+Just run:
+
+```
+npm run dev
+```
+
+After that, just send an http post to `http://localhost:8080/new-message` with this [json sample](https://github.com/jrichardsz/telegram-bot-starter/wiki/newMessage-real-body-sent-by-telegram):
+
+
+You must have a log like this:
+
+```
+[2020-07-12T23:47:12.369Z]:incoming command: [/by]
+[2020-07-12T23:47:12.369Z]:from:Kirito
+[2020-07-12T23:47:12.369Z]:searching some command in text:/by
+[2020-07-12T23:47:12.369Z]:basic command was found
+[2020-07-12T23:47:12.369Z]:command:/by
+[2020-07-12T23:47:12.370Z]:Command instance was found for this command? : yes
+[2020-07-12T23:47:12.370Z]:commandArguments:
+[2020-07-12T23:47:12.370Z]:sending message:My creator is JRichardsz (https://jrichardsz.github.io)
+[2020-07-12T23:47:12.371Z]:operation completed.
+```
+
+In development mode, message is not sent to chat. Is only printed in console. More details [here](https://github.com/jrichardsz/telegram-bot-starter/wiki/No-real-messages-in-development-mode)
+
+# Production or real mode
+
 # Step 1 : Telegram previous configurations
 
 - Start new telegram chat with botFather and send the following commands:
@@ -61,19 +92,28 @@ curl -F "url=https://my_awesome_bot.herokuapp.com/new-message"  https://api.tele
 
 Start a new chat with your bot and enter :
 
-**/help**
+**/by**
 
-This command will return you a list of default commands of your bot.
+This command will return the creator of this bot. Customization here **application.properties**
 
 ---
 
-### Add new commands
+# Create new commands
+
+## I have no time to understand your geek ideas
+
+- In this case, just duplicate this file **/commands/By.js** into another like **Health.js**
+- Open Health.js and replace **By** (real name) with new name **Health**
+- Put any string into **next()** callback like: `next('I am very fine sr.');`
+- That's all, you will have a new command: **/health**.
+- Note the first lower case!!. By default name of your command is the name of the js file but with first letter in lower case.
+
+
+## How it works?
 
 In order to add new commands, you must understand how commands works:
 
-#### Command strategy
-
-Commands are very simple. Is just a javascript module with :
+Command is very simple. Is just a javascript module with :
 
 - constructor
 - ask method
@@ -81,7 +121,7 @@ Commands are very simple. Is just a javascript module with :
 - name method
   - This method is required to save an instance of command in a map with name command as key map.
 
-#### New command
+## New command
 
 By default, this bot has two commands:
 
@@ -99,70 +139,10 @@ If you want to add new command, follow this steps :
 
 That's all. Restart application and a new command called **/hello** are available :D
 
-### Start Bot for Development purposes
+# Road Map
 
-- npm install
-- npm run dev
-
-
-### Test bot commands in local environment
-
-This is a sample of json sent by telegram server to your bot:
-
-```json
-{
-  "text":"Hello",
-  "from":{
-    "first_name":"Richard"
-  }
-}
-```
-
-Execute this samples to test the correct behavior of this bot
-
-## /by
-
-```
-curl -H "Content-Type: application/json" -X POST -d '{"text":"/by","from":{"first_name":"Richard"}}' \
-http://localhost:8080/new-message
-```
-
-**Success Log**
-
-```
-incoming command: [/by]
-from:Richard
-searching command in text:/by
-basic command:/by
-Command instance was found for this command? : yes
-commandArguments:
-sending message:JRichardsz
-mesage was not send. BOT env is local (development mode)
-operation completed.
-```
-
-## /help
-
-```
-curl -H "Content-Type: application/json" -X POST -d '{"text":"/help","from":{"first_name":"Richard"}}' \
-http://localhost:8080/new-message
-```
-
-**Success Log**
-
-```
-incoming command: [/help]
-from:Richard
-searching command in text:/help
-basic command:/help
-Command instance was found for this command? : yes
-commandArguments:
-sending message:Hi, I am Template Starter Bot, and this are my commands: ...
-mesage was not send. BOT env is local (development mode)
-operation completed.
-```
-
-In development mode, message is not sent to chat. Is only printed in console.
+- Improve default commands
+- List commands files (reading commands folder XD)
 
 # Regards
 
