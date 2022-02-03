@@ -1,6 +1,5 @@
 //for easy of path in require sentence
 const path = require('path');
-global.appRoot = path.resolve(__dirname);
 
 //add date to console.log
 require('log-timestamp');

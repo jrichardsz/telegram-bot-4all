@@ -1,4 +1,6 @@
 const fs = require('fs');
+const path = require('path');
+const fsPromises = fs.promises;
 
 var exports = module.exports = {};
 
@@ -25,7 +27,7 @@ exports.searchBasicCommand = function(text) {
   var result = pattern.test(text);
   if (result === true) {
     if (match && match[0]) {
-      return match[0]
+      return match[0].split(/\s+/)[0]
     }
   }
 
@@ -42,10 +44,38 @@ exports.searchHumanV1Command = function(text, commandsMap) {
   }
 }
 
-exports.initializeCommands = function(commandsMap) {
+exports.initializeCommandsV1 = function(commandsMap) {
   fs.readdirSync(`${appRoot}/commands/`).forEach(function(file) {
     var commandRequire = require(`${appRoot}/commands/` + file);
     var command = new commandRequire();
+    console.log("registering new command:"+command.name());
     commandsMap[command.name()] = command;
   });
+}
+
+exports.scanAndInstantiateCommands = async function(commandsLocation) {
+  var files;
+  try{
+    files = await fsPromises.readdir(commandsLocation);
+  }catch(err){
+    console.log("Failed while commands are beign readed");
+    console.log(err);
+    return {};
+  }
+  var instancedBotCommands = {};
+  var errorsOnInstantiateCommand = {};
+  files.forEach((file) => {
+    var commandRequire = require(path.join(commandsLocation, file));
+    var command = new commandRequire();
+    try{
+      console.log("registering new command:"+command.name());
+      instancedBotCommands[command.name()] = command;
+    }catch(err){
+      errorsOnInstantiateCommand[path.join(commandsLocation, file)] = err.toString();
+    }
+  });
+  return {
+    commands: instancedBotCommands,
+    errors: errorsOnInstantiateCommand
+  };
 }

@@ -1,5 +1,7 @@
 # Telegram Bot Starter Template
 
+![](./coverage/lines.svg) ![](./coverage/statements.svg) ![](./coverage/branches.svg) ![](./coverage/functions.svg)
+
 ![image](https://raw.githubusercontent.com/jrichardsz/static_resources/master/node-telegram-bot-intro.jpg)
 
 This repository is a simple starter to develop a telegram bot.
