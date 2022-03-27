@@ -1,2 +1,11 @@
+**/.DS_Store
 /node_modules
-package-lock.json
+/dist
+.nyc_output
+nohup.out
+!/coverage
+/coverage/*
+!/coverage/lines.svg
+!/coverage/statements.svg
+!/coverage/branches.svg
+!/coverage/functions.svg
