@@ -26,7 +26,7 @@ function NewMessageEndpoint() {
       console.log(message);
       var sendMessageResponse = await this.telegramBotActions.sendMessage(chatMessageObject.chat.id, message);
       console.log("telegram engine bot response:");
-      console.log(sendMessageResponse);
+      console.log(sendMessageResponse.statusText);
       res.set("code-to-client",500);
       return res.end('ok')
     }
@@ -38,7 +38,7 @@ function NewMessageEndpoint() {
       console.log(message);
       var sendMessageResponse = await this.telegramBotActions.sendMessage(chatMessageObject.chat.id, message);
       console.log("telegram engine bot response:");
-      console.log(sendMessageResponse);
+      console.log(sendMessageResponse.statusText);
       res.set("code-to-client",501);
       return res.end('ok')
     }
@@ -48,11 +48,11 @@ function NewMessageEndpoint() {
     var commandFounded = Helper.searchBasicCommand(chatMessageObject.text.toLowerCase());
 
     if (typeof commandFounded === 'undefined') {
-      var message = "basic command syntax was not found in the received text:" + chatMessageObject.text + " Expected syntax: /foo /help /whatever";
+      var message = "basic command syntax was not found in the received text: [" + chatMessageObject.text + "] Expected syntax: /foo /help /whatever";
       console.log(message);
       var sendMessageResponse = await this.telegramBotActions.sendMessage(chatMessageObject.chat.id, message);
       console.log("telegram engine bot response:");
-      console.log(sendMessageResponse);
+      console.log(sendMessageResponse.statusText);
       res.set("code-to-client",502);
       return res.end('ok')
     }
@@ -64,7 +64,7 @@ function NewMessageEndpoint() {
       var sendMessageResponse = await this.telegramBotActions.sendMessage(chatMessageObject.chat.id,
         "The text you have entered has a valid command [" + chatMessageObject.text + "] but there is not a command instance to handle it");
       console.log("telegram engine bot response:");
-      console.log(sendMessageResponse);
+      console.log(sendMessageResponse.statusText);
       res.set("code-to-client",503);
       return res.end('ok')
     }
@@ -81,7 +81,7 @@ function NewMessageEndpoint() {
     var sendMessageResponse = await this.telegramBotActions.sendMessage(chatMessageObject, botResponse);
     console.log("operation completed.");
     console.log("telegram engine bot response:");
-    console.log(sendMessageResponse);
+    console.log(sendMessageResponse.statusText);
     res.set("code-to-client",200);
     return res.end('ok')
   };
