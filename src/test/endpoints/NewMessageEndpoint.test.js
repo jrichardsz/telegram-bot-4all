@@ -161,3 +161,30 @@ describe('NewMessageEndpoint: execute', function() {
     mockStub.restore();
   });
 });
+
+describe('NewMessageEndpoint: execute', function() {
+
+  it('should return code-to-client=504 if telegram engine returns error', async function() {
+
+    var resMockInstance = new resMock();
+    var newMessageEndpoint = new NewMessageEndpoint();
+    newMessageEndpoint.setCommands(commandsMap);
+    var newMessageEndpointResponse = await newMessageEndpoint.execute({
+      body: {
+        message: {
+          text: "/acme bar baz",
+          from: {
+            "first_name": "Jrichardsz"
+          },
+          chat: {
+            id: "foo"
+          }
+        }
+      }
+    }, resMockInstance);
+
+    expect(newMessageEndpointResponse).to.eql('ok');
+    expect(resMockInstance.headers["code-to-client"]).to.eql(504);
+  });
+
+});

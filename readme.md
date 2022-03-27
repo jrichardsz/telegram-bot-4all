@@ -83,7 +83,7 @@ function Today() {
     return today.toISOString().substring(0, 10);
   }
 }
-module.exports = By;
+module.exports = Today;
 ```
 - That's all. Redeploy your bot and you will have a new command, ready to use it in the chat with `/today`
 
