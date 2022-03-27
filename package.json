@@ -11,7 +11,7 @@
   "author": "JRichardsz (http://jrichardsz.github.io/)",
   "license": "MIT",
   "dependencies": {
-    "axios": "0.19.2",
+    "axios": "0.21.2",
     "body-parser": "1.18.3",
     "cross-env": "5.2.0",
     "express": "4.16.3",
