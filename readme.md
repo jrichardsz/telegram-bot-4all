@@ -1,8 +1,10 @@
-# Telegram Bot Starter Template
+# Telegram Bot 4all
 
-![image](https://raw.githubusercontent.com/jrichardsz/static_resources/master/node-telegram-bot-intro.jpg)
+![](./coverage/lines.svg) ![](./coverage/statements.svg) ![](./coverage/branches.svg) ![](./coverage/functions.svg)
 
-This repository is a simple starter to develop a telegram bot.
+![image](https://i.ibb.co/r0Yq2qd/telegram-bot-4-all-home.png)
+
+Create telegram bots never been so easy.
 
 # Goal
 
@@ -11,46 +13,17 @@ Serve as a starting point to develop telegram personal or public bots like :
 - List my movies
 - List my schedule
 - Get random names
-- Anything in our minds :D
+- Or whatever you want
 
 # Requirements
 
-- Node.js 8
+- Node.js >=14
 - Telegram account
 - Telegram Token (BotFather)
 
-# Development mode
+# Steps
 
-Useful for test bot commands in local environment without deployment steps
-
-Just run:
-
-```
-npm run dev
-```
-
-After that, just send an http post to `http://localhost:8080/new-message` with this [json sample](https://github.com/jrichardsz/telegram-bot-starter/wiki/newMessage-real-body-sent-by-telegram):
-
-
-You must have a log like this:
-
-```
-[2020-07-12T23:47:12.369Z]:incoming command: [/by]
-[2020-07-12T23:47:12.369Z]:from:Kirito
-[2020-07-12T23:47:12.369Z]:searching some command in text:/by
-[2020-07-12T23:47:12.369Z]:basic command was found
-[2020-07-12T23:47:12.369Z]:command:/by
-[2020-07-12T23:47:12.370Z]:Command instance was found for this command? : yes
-[2020-07-12T23:47:12.370Z]:commandArguments:
-[2020-07-12T23:47:12.370Z]:sending message:My creator is JRichardsz (https://jrichardsz.github.io)
-[2020-07-12T23:47:12.371Z]:operation completed.
-```
-
-In development mode, message is not sent to chat. Is only printed in console. More details [here](https://github.com/jrichardsz/telegram-bot-starter/wiki/No-real-messages-in-development-mode)
-
-# Production or real mode
-
-# Step 1 : Telegram previous configurations
+### Step 1 : Telegram previous configurations
 
 - Start new telegram chat with botFather and send the following commands:
 - /start
@@ -58,25 +31,24 @@ In development mode, message is not sent to chat. Is only printed in console. Mo
 - Enter : Name of your Bot
 - Enter : Id of your Bot
 
-  This step , will return to you the token. This is required to register and interact with your bot.
+  This step , will return to you the **token**. This is required to register and interact with your bot. Save it!!!
 
-# Step 2 : Deploy your bot
+### Step 2 : Create the bot with nodejs
 
-- Clone this repository
+- Clone the template : https://github.com/jrichardsz/telegram-bot-4all-demo.git
+- This template has a command sample called **/author** who returns the name of creator of this tool
+
+### Step 3 : Deploy your bot
+
+You need to deploy your bot (this source code) in a **public server or domain**: using some free or private service like: Heroku, Openshift, https://zeit.co/now, etc
+
+Example with heroku:
+
 - Create an account in heroku (for instance)
 - Create a configuration variable called : **TELEGRAM_BOT_TOKEN** with token gotten in previous step.
 - Push and save the public url of this heroku application.
 
-# Step 3 :Register bot in Telegram Servers
-
-**Note :** Execute this step if your bot is ready to use (deployed in somewhere)
-
-You need to deploy your bot (this source code) in a **public server or domain**:
-
-- Heroku
-- Openshift
-- https://zeit.co/now
-- Some server by your own
+### Step 4 : Register bot in Telegram Servers
 
 If your bot is deployed and has a url like:
 
@@ -88,67 +60,49 @@ You must register it, executing this:
 curl -F "url=https://my_awesome_bot.herokuapp.com/new-message"  https://api.telegram.org/bot<your_api_token>/setWebhook
 ```
 
-# Step 4: Chat with your bot
+### Step 5: Chat with your bot
 
-Start a new chat with your bot and enter :
+If you followed all the steps without errors, you could use this command with your own bot:
 
-**/by**
+![](https://i.ibb.co/VD5BTG1/telegram-bot-4all-sample.png)
 
-This command will return the creator of this bot. Customization here **application.properties**
-
----
+If you don't have any response, check de logs or review the telegram father configurations.
 
 # Create new commands
 
-## I have no time to understand your geek ideas
+- We will create a command who return the data of the current day
+- Create a module inside of commands folder. The **doit** method is mandatory
 
-- In this case, just duplicate this file **/commands/By.js** into another like **Health.js**
-- Open Health.js and replace **By** (real name) with new name **Health**
-- Put any string into **next()** callback like: `next('I am very fine sr.');`
-- That's all, you will have a new command: **/health**.
-- Note the first lower case!!. By default name of your command is the name of the js file but with first letter in lower case.
+```
+function Today() {
+  this.doit = () => {
+    var today = new Date();
+    return today.toISOString().substring(0, 10);
+  }
+}
+module.exports = Today;
+```
 
-
-## How it works?
-
-In order to add new commands, you must understand how commands works:
-
-Command is very simple. Is just a javascript module with :
-
-- constructor
-- ask method
-  - This method is called every time a user send some text which contains command name like : **/help**
-- name method
-  - This method is required to save an instance of command in a map with name command as key map.
-
-## New command
-
-By default, this bot has two commands:
-
-- /by
-  - Show the author of this bot
-- /help
-  - Show a list of commands and some tips     
-
-If you want to add new command, follow this steps :
-
-- Copy/past **By**  or **Help** commands, located in **commands** folder (In order to comply with **Command Strategy**)
-- Rename to some name like : **Hello.js**. This name will be the command name to use.
-- Replace **old name** occurrences by **new name** : Hello
-- Add some logic inside **ask** method. Don't forget to return some string.
-
-That's all. Restart application and a new command called **/hello** are available :D
+- That's all. Redeploy your bot and you will have a new command, ready to use it in the chat with `/today`
 
 # Road Map
 
-- Improve default commands
-- List commands files (reading commands folder XD)
+- [ ] Emulate telegram service for local tests
+- [ ] Add self webhook endpoint
+- [ ] Add complex feature : receive images
+- [ ] Add complex feature : receive form data
+- [ ] Add complex feature : payments
 
-# Regards
 
-- https://www.sohamkamani.com/blog/2016/09/21/making-a-telegram-bot/
-- https://github.com/jrichardsz/static_resources/blob/master/telegram-bot-example.pdf
+# Contributors
 
-# Author
-
-- Richard Leon **(JRichardsz)**
+<table>
+  <tbody>
+    <td>
+      <img src="https://avatars0.githubusercontent.com/u/3322836?s=460&v=4" width="100px;"/>
+      <br />
+      <label><a href="http://jrichardsz.github.io/">Richard Leon</a></label>
+      <br />
+    </td>    
+  </tbody>
+</table>
