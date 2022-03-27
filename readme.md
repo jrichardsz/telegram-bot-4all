@@ -2,7 +2,7 @@
 
 ![](./coverage/lines.svg) ![](./coverage/statements.svg) ![](./coverage/branches.svg) ![](./coverage/functions.svg)
 
-![image](https://raw.githubusercontent.com/jrichardsz/static_resources/master/node-telegram-bot-intro.jpg)
+![image](https://i.ibb.co/r0Yq2qd/telegram-bot-4-all-home.png)
 
 Create telegram bots never been so easy.
 
@@ -13,7 +13,7 @@ Serve as a starting point to develop telegram personal or public bots like :
 - List my movies
 - List my schedule
 - Get random names
-- Anything in your mind
+- Or whatever you want
 
 # Requirements
 
@@ -31,12 +31,12 @@ Serve as a starting point to develop telegram personal or public bots like :
 - Enter : Name of your Bot
 - Enter : Id of your Bot
 
-  This step , will return to you the token. This is required to register and interact with your bot.
+  This step , will return to you the **token**. This is required to register and interact with your bot. Save it!!!
 
-### Step 2 : New commands
+### Step 2 : Create the bot with nodejs
 
 - Clone the template : https://github.com/jrichardsz/telegram-bot-4all-demo.git
-- Create a folder called `commands` and add the modules following the required syntax.
+- This template has a command sample called **/author** who returns the name of creator of this tool
 
 ### Step 3 : Deploy your bot
 
@@ -62,18 +62,15 @@ curl -F "url=https://my_awesome_bot.herokuapp.com/new-message"  https://api.tele
 
 ### Step 5: Chat with your bot
 
-Start a new chat with your bot and enter anything like:
+If you followed all the steps without errors, you could use this command with your own bot:
 
-`/foo`
+![](https://i.ibb.co/VD5BTG1/telegram-bot-4all-sample.png)
 
-Response should be:
-
-`My creator has not configured any command. Contact it.`
-
----
+If you don't have any response, check de logs or review the telegram father configurations.
 
 # Create new commands
 
+- We will create a command who return the data of the current day
 - Create a module inside of commands folder. The **doit** method is mandatory
 
 ```
@@ -85,12 +82,16 @@ function Today() {
 }
 module.exports = Today;
 ```
+
 - That's all. Redeploy your bot and you will have a new command, ready to use it in the chat with `/today`
 
 # Road Map
 
 - [ ] Emulate telegram service for local tests
 - [ ] Add self webhook endpoint
+- [ ] Add complex feature : receive images
+- [ ] Add complex feature : receive form data
+- [ ] Add complex feature : payments
 
 
 # Contributors
